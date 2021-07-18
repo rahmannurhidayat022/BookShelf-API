@@ -17,7 +17,7 @@ const routes = [
   {
     method: 'GET',
     path: '/books',
-    handler: () => {},
+    handler: getAllBooksHandler,
   },
   {
     method: 'GET',
