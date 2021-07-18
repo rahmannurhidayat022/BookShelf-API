@@ -12,7 +12,7 @@ const routes = [
   {
     method: 'POST',
     path: '/books',
-    handler: () => {},
+    handler: addBooksHandler,
   },
   {
     method: 'GET',
