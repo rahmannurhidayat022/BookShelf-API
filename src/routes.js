@@ -22,7 +22,7 @@ const routes = [
   {
     method: 'GET',
     path: '/books/{id}',
-    handler: () => {},
+    handler: getBooksByIdHandler,
   },
   {
     method: 'PUT',

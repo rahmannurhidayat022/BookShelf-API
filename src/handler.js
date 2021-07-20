@@ -8,8 +8,8 @@ const addBooksHandler = (request, h) => {
   } = request.payload;
 
   const id = nanoid(16);
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
+  const insertedAt = new Date().toISOString();
+  const updatedAt = insertedAt;
   const finished = pageCount === readPage;
 
   const newBook = {
@@ -23,7 +23,7 @@ const addBooksHandler = (request, h) => {
     readPage,
     finished,
     reading,
-    createdAt,
+    insertedAt,
     updatedAt,
   };
 
@@ -31,8 +31,7 @@ const addBooksHandler = (request, h) => {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. Mohon isi nama buku',
-    });
-    response.code(400);
+    }).code(400);
     return response;
   }
 
@@ -40,8 +39,7 @@ const addBooksHandler = (request, h) => {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
-    });
-    response.code(400);
+    }).code(400);
     return response;
   }
 
@@ -56,16 +54,14 @@ const addBooksHandler = (request, h) => {
       data: {
         bookId: id,
       },
-    });
-    response.code(201);
+    }).code(201);
     return response;
   }
 
   const response = h.response({
     status: 'fail',
     message: 'Buku gagal ditambahkan',
-  });
-  response.code(500);
+  }).code(500);
   return response;
 };
 
@@ -79,12 +75,32 @@ const getAllBooksHandler = (request, h) => {
         publisher: book.publisher,
       })),
     },
-  });
-  response.code(200);
+  }).code(200);
   return response;
 };
 
-const getBooksByIdHandler = () => {};
+const getBooksByIdHandler = (request, h) => {
+  const { id } = request.params;
+
+  const book = books.filter((n) => n.id === id)[0];
+
+  if (book !== undefined) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        book,
+      },
+    }).code(200);
+    return response;
+  }
+
+  const response = h.response({
+    status: 'fail',
+    message: 'Buku tidak ditemukan',
+  }).code(404);
+  return response;
+};
+
 const editBooksByIdHandler = () => {};
 const deleteBooksByIdHandler = () => {};
 
